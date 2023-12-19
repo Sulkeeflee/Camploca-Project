@@ -59,7 +59,7 @@ class ProductController extends Controller
             'status'=>'required|in:active,inactive',
             'condition'=>'required|in:default,new,hot',
             'price'=>'required|numeric',
-            'discount'=>'nullable|numeric'
+            'discount'=>'nullable|numeric' 
         ]);
 
         $data=$request->all();
@@ -73,7 +73,7 @@ class ProductController extends Controller
         $size=$request->input('size');
         if($size){
             $data['size']=implode(',',$size);
-        }
+        } 
         else{
             $data['size']='';
         }

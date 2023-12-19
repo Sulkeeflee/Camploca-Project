@@ -30,7 +30,7 @@
            <button class="btn btn-success" type="submit">Update</button>
         </div>
       </form>
-    </div>
+    </div> 
 </div>
 
 @endsection

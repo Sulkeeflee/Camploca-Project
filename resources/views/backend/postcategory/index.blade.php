@@ -114,7 +114,7 @@
                 {
                     "orderable":false,
                     "targets":[3,4]
-                }
+                } 
             ]
         } );
 

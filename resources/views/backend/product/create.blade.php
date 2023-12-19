@@ -1,7 +1,7 @@
 @extends('backend.layouts.master')
 
 @section('main-content')
-
+ 
 <div class="card">
     <h5 class="card-header">Add Product</h5>
     <div class="card-body">
@@ -12,7 +12,7 @@
           <input id="inputTitle" type="text" name="title" placeholder="Enter title"  value="{{old('title')}}" class="form-control">
           @error('title')
           <span class="text-danger">{{$message}}</span>
-          @enderror
+          @enderror 
         </div>
 
         <div class="form-group">

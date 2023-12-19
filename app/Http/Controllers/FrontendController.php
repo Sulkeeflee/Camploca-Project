@@ -9,6 +9,8 @@ use App\Models\PostCategory;
 use App\Models\Post;
 use App\Models\Cart;
 use App\Models\Brand;
+use App\Models\Campground;
+use App\Models\CampgroundCategory;
 use App\User;
 use Auth;
 use Session;
@@ -127,7 +129,7 @@ class FrontendController extends Controller
                 $products=$products->orderBy('price','ASC');
             }
         }
-
+ 
         if(!empty($_GET['price'])){
             $price=explode('-',$_GET['price']);
             // return $price;
@@ -423,4 +425,46 @@ class FrontendController extends Controller
             }
     }
     
+
+    public function campground()
+
+    {
+
+        $campgrounds = Campground::query();
+
+        if(!empty($_GET['category'])){
+            $slug=explode(',',$_GET['category']);
+            // dd($slug);
+            $cat_ids=CampgroundCategory::select('id')->whereIn('slug',$slug)->pluck('id')->toArray();
+            // dd($cat_ids);
+            $campgrounds->whereIn('cat_id',$cat_ids);
+            // return $products;
+        }
+
+        $recent_campgrounds=Campground::where('status','active')->orderBy('id','DESC')->limit(3)->get();
+        // Sort by number
+        if(!empty($_GET['show'])){
+            $campgrounds=$campgrounds->where('status','active')->paginate($_GET['show']);
+        }
+        else{
+            $campgrounds=$campgrounds->where('status','active')->paginate(9);
+        }
+        // Sort by name , price, category
+
+      
+        return view('campgrounds.campground')->with('campgrounds',$campgrounds)->with('recent_campgrounds',$recent_campgrounds);
+    }
+       
+
+    public function createCampground()
+    {
+        // Sample logic for /campground/create route
+        return view('campgrounds.create-campground');
+    }
+    public function campgroundDetail($slug){
+        $campground_detail= Campground::getCampgroundBySlug($slug);
+        // dd($product_detail);
+        return view('campgrounds.campground_detail')->with('campground_detail',$campground_detail);
+    }
+
 }

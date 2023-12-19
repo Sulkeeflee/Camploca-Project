@@ -1,11 +1,12 @@
+
 @extends('backend.layouts.master')
 
-@section('main-content')  
-
+@section('main-content') 
+ 
 <div class="card">
     <h5 class="card-header">Add Post Category</h5>
     <div class="card-body">
-      <form method="post" action="{{route('post-category.store')}}">
+      <form method="post" action="{{route('campground-category.store')}}">
         {{csrf_field()}}
         <div class="form-group">
           <label for="inputTitle" class="col-form-label">Title</label>
@@ -34,3 +35,6 @@
 </div>
 
 @endsection
+
+
+

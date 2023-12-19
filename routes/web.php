@@ -16,6 +16,8 @@
     use App\Http\Controllers\NotificationController;
     use App\Http\Controllers\HomeController;
     use \UniSharp\LaravelFilemanager\Lfm;
+    use App\Http\Controllers\CampgroundController;
+    use App\Http\Controllers\CampgroundCategoryController;
 
     /*
     |--------------------------------------------------------------------------
@@ -66,6 +68,9 @@
     Route::get('/product-cat/{slug}', [FrontendController::class, 'productCat'])->name('product-cat');
     Route::get('/product-sub-cat/{slug}/{sub_slug}', [FrontendController::class, 'productSubCat'])->name('product-sub-cat');
     Route::get('/product-brand/{slug}', [FrontendController::class, 'productBrand'])->name('product-brand');
+    Route::get('/campground', [FrontendController::class, 'campground'])->name('campground');
+    Route::get('/campground/create', [FrontendController::class, 'createCampground'])->name('campground.create-campground');
+    Route::get('campground-detail/{slug}', [FrontendController::class, 'campgroundDetail'])->name('campground-detail');
 // Cart section
     Route::get('/add-to-cart/{slug}', [CartController::class, 'addToCart'])->name('add-to-cart')->middleware('user');
     Route::post('/add-to-cart', [CartController::class, 'singleAddToCart'])->name('single-add-to-cart')->middleware('user');
@@ -118,7 +123,7 @@
     Route::get('payment/success', [PayPalController::class, 'success'])->name('payment.success');
 
 
-// Backend section start
+// Backend section start 
 
     Route::group(['prefix' => '/admin', 'middleware' => ['auth', 'admin']], function () {
         Route::get('/', [AdminController::class, 'index'])->name('admin');
@@ -160,13 +165,16 @@
         Route::get('settings', [AdminController::class, 'settings'])->name('settings');
         Route::post('setting/update', [AdminController::class, 'settingsUpdate'])->name('settings.update');
 
-        // Notification
+        // Notification 
         Route::get('/notification/{id}', [NotificationController::class, 'show'])->name('admin.notification');
         Route::get('/notifications', [NotificationController::class, 'index'])->name('all.notification');
         Route::delete('/notification/{id}', [NotificationController::class, 'delete'])->name('notification.delete');
         // Password Change
         Route::get('change-password', [AdminController::class, 'changePassword'])->name('change.password.form');
         Route::post('change-password', [AdminController::class, 'changPasswordStore'])->name('change.password');
+        // campground category
+        Route::resource('campground-category', 'CampgroundCategoryController');
+        Route::resource('campground', 'CampgroundController');
     });
 
 
@@ -201,3 +209,8 @@
     Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
         Lfm::routes();
     });
+
+
+
+
+

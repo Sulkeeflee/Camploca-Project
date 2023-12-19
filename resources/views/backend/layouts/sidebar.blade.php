@@ -127,6 +127,49 @@
             <i class="fas fa-comments"></i>
             <span>Reviews</span></a>
     </li>
+   
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Campground
+        </div>
+
+    <!-- Categories -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#category_campgroundCollapse" aria-expanded="true" aria-controls="category_campgroundCollapse">
+          <i class="fas fa-sitemap"></i>
+          <span>Category</span>
+        </a>
+        <div id="category_campgroundCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Category Options:</h6>
+            <a class="collapse-item" href="{{ route('campground-category.index') }}">Category</a>
+            <a class="collapse-item" href="{{ route('campground-category.create') }}">Add Category</a>
+          </div>
+        </div>
+    </li>
+    {{-- Products --}}
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#campgroundCollapse" aria-expanded="true" aria-controls="campgroundCollapse">
+          <i class="fas fa-cubes"></i>
+          <span>Campgrounds</span>
+        </a>
+        <div id="campgroundCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">campground Options:</h6>
+            <a class="collapse-item" href="{{route('campground.index')}}">Campgrounds</a>
+            <a class="collapse-item" href="{{route('campground.create')}}">Add Campgrounds</a>
+          </div>
+        </div>
+    </li>
+
+    <!-- Reviews -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('review.index')}}">
+            <i class="fas fa-comments"></i>
+            <span>Reviews</span></a>
+    </li>
     
 
     <!-- Divider -->
