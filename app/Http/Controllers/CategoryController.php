@@ -13,7 +13,7 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index() 
     {
         $category=Category::getAllCategory();
         // return $category;
@@ -43,7 +43,7 @@ class CategoryController extends Controller
         $this->validate($request,[
             'title'=>'string|required',
             'summary'=>'string|nullable',
-            'photo'=>'string|nullable',
+            'photo'=>'string|nullable', 
             'status'=>'required|in:active,inactive',
             'is_parent'=>'sometimes|in:1',
             'parent_id'=>'nullable|exists:categories,id',

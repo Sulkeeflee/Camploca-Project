@@ -164,9 +164,17 @@
         </div>
     </li>
 
+    <!--Orders -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('backend.campground.product.index')}}">
+            <i class="fas fa-hammer fa-chart-area"></i>
+            <span>Campground Product</span>
+        </a>
+    </li>
+ 
     <!-- Reviews -->
     <li class="nav-item">
-        <a class="nav-link" href="{{route('review.index')}}">
+        <a class="nav-link" href="{{route('campground-review.index')}}">
             <i class="fas fa-comments"></i>
             <span>Reviews</span></a>
     </li>

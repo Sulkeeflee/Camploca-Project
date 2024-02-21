@@ -7,7 +7,7 @@ use App\Models\Product;
 use Notification;
 use App\Notifications\StatusNotification;
 use App\User;
-use App\Models\ProductReview;
+use App\Models\ProductReview; 
 class ProductReviewController extends Controller
 {
     /**

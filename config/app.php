@@ -168,6 +168,7 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
         Srmklive\PayPal\Providers\PayPalServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        Geocoder\Laravel\Providers\GeocoderService::class,
         /*
          * Package Service Providers...
          */

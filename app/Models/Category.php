@@ -15,7 +15,7 @@ class Category extends Model
         return  Category::orderBy('id','DESC')->with('parent_info')->paginate(10);
     }
 
-    public static function shiftChild($cat_id){
+    public static function shiftChild($cat_id){ 
         return Category::whereIn('id',$cat_id)->update(['is_parent'=>1]);
     }
     public static function getChildByParentID($id){

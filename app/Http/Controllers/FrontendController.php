@@ -11,6 +11,7 @@ use App\Models\Cart;
 use App\Models\Brand;
 use App\Models\Campground;
 use App\Models\CampgroundCategory;
+use App\Models\CampgroundProduct;
 use App\User;
 use Auth;
 use Session;
@@ -25,10 +26,11 @@ class FrontendController extends Controller
     public function index(Request $request){
         return redirect()->route($request->user()->role);
     }
-
+ 
     public function home(){
         $featured=Product::where('status','active')->where('is_featured',1)->orderBy('price','DESC')->limit(2)->get();
         $posts=Post::where('status','active')->orderBy('id','DESC')->limit(3)->get();
+        $campground=Campground::where('status','active')->orderBy('id','DESC')->limit(3)->get();
         $banners=Banner::where('status','active')->limit(3)->orderBy('id','DESC')->get();
         // return $banner;
         $products=Product::where('status','active')->orderBy('id','DESC')->limit(8)->get();
@@ -37,6 +39,7 @@ class FrontendController extends Controller
         return view('frontend.index')
                 ->with('featured',$featured)
                 ->with('posts',$posts)
+                ->with('campground', $campground)
                 ->with('banners',$banners)
                 ->with('product_lists',$products)
                 ->with('category_lists',$category);
@@ -236,7 +239,7 @@ class FrontendController extends Controller
             return view('frontend.pages.product-lists')->with('products',$products->products)->with('recent_products',$recent_products);
         }
 
-    }
+    } 
     public function productSubCat(Request $request){
         $products=Category::getProductBySubCat($request->sub_slug);
         // return $products;
@@ -461,10 +464,21 @@ class FrontendController extends Controller
         // Sample logic for /campground/create route
         return view('campgrounds.create-campground');
     }
-    public function campgroundDetail($slug){
-        $campground_detail= Campground::getCampgroundBySlug($slug);
-        // dd($product_detail);
-        return view('campgrounds.campground_detail')->with('campground_detail',$campground_detail);
+    public function campgroundDetail($slug)
+    {
+        $campground_detail = Campground::with('products')->where('slug', $slug)->first();
+        return view('campgrounds.campground_detail')->with('campground_detail', $campground_detail);
     }
-
+    public function campgroundSearch(Request $request){
+        $campground = Campground::all();
+        $recent_campgrounds=Campground::where('status','active')->orderBy('id','DESC')->limit(3)->get();
+        $campgrounds=Campground::orwhere('title','like','%'.$request->search.'%')
+                    ->orwhere('slug','like','%'.$request->search.'%')
+                    ->orwhere('description','like','%'.$request->search.'%')
+                    ->orwhere('summary','like','%'.$request->search.'%')
+                    ->orderBy('id','DESC')
+                    ->paginate('9');
+        return view('campgrounds.campground')->with('campgrounds',$campgrounds)->with('campground',$campground)->with('recent_campgrounds',$recent_campgrounds);
+    }
+ 
 }

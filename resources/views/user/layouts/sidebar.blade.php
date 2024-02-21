@@ -18,6 +18,21 @@
         <span>Dashboard</span></a>
     </li>
 
+<!-- Divider -->
+<hr class="sidebar-divider">
+
+<!-- Heading -->
+<div class="sidebar-heading">
+    My Shop
+</div>
+<!--Orders -->
+<li class="nav-item">
+<a class="nav-link" href="{{route('user.product.index')}}">
+    <i class="fas fa-hammer fa-chart-area"></i>
+    <span>Product</span>
+</a>
+</li>
+
     <!-- Divider -->
     <hr class="sidebar-divider">
 
@@ -25,6 +40,7 @@
         <div class="sidebar-heading">
             Shop
         </div>
+      
     <!--Orders -->
     <li class="nav-item">
         <a class="nav-link" href="{{route('user.order.index')}}">
@@ -40,6 +56,34 @@
             <span>Reviews</span></a>
     </li>
     
+     <!-- Divider -->
+     <hr class="sidebar-divider">
+
+<!-- Heading -->
+<div class="sidebar-heading">
+Campground
+</div>
+<!--Orders -->
+<li class="nav-item">
+<a class="nav-link" href="{{route('user.campground.index')}}">
+    <i class="fas fa-hammer fa-chart-area"></i>
+    <span>Campground</span>
+</a>
+</li>
+<!--Orders -->
+<li class="nav-item">
+<a class="nav-link" href="{{route('campground.product.index')}}">
+    <i class="fas fa-hammer fa-chart-area"></i>
+    <span>Campground Product</span>
+</a>
+</li>
+
+<!-- Reviews -->
+<li class="nav-item">
+<a class="nav-link" href="{{route('user.campgroundreview.index')}}">
+    <i class="fas fa-comments"></i>
+    <span>Reviews</span></a>
+</li>
 
     <!-- Divider -->
     <hr class="sidebar-divider">

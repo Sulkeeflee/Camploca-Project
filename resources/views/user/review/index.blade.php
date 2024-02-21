@@ -58,7 +58,7 @@
                      </ul>
                     </td>
                     <td>{{$review->created_at->format('M d D, Y g: i a')}}</td>
-                    <td>
+                    <td> 
                         @if($review->status=='active')
                           <span class="badge badge-success">{{$review->status}}</span>
                         @else

@@ -42,7 +42,7 @@ class WishlistController extends Controller
             $wishlist->save();
         }
         request()->session()->flash('success','Product successfully added to wishlist');
-        return back();       
+        return back();        
     }  
     
     public function wishlistDelete(Request $request){

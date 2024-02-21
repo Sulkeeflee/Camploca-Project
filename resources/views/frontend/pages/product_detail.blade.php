@@ -84,11 +84,11 @@
                                                 @php 
                                                     $after_discount=($product_detail->price-(($product_detail->price*$product_detail->discount)/100));
                                                 @endphp
-												<p class="price"><span class="discount">${{number_format($after_discount,2)}}</span><s>${{number_format($product_detail->price,2)}}</s> </p>
+												<p class="price"><span class="discount">฿{{number_format($after_discount,2)}}</span><s>฿{{number_format($product_detail->price,2)}}</s> </p>
 												<p class="description">{!!($product_detail->summary)!!}</p>
 											</div>
 											<!--/ End Description -->
-											<!-- Color -->
+											<!-- Color --> 
 											{{-- <div class="color">
 												<h4>Available Options <span>Color</span></h4>
 												<ul>
@@ -138,11 +138,16 @@
 														</div>
 													<!--/ End Input Order -->
 													</div>
+													
 													<div class="add-to-cart mt-4">
 														<button type="submit" class="btn">Add to cart</button>
+														<button type="submit" name="buy_now" value="1" class="btn">Buy Now</button>
+														
 														<a href="{{route('add-to-wishlist',$product_detail->slug)}}" class="btn min"><i class="ti-heart"></i></a>
 													</div>
 												</form>
+
+										
 
 												<p class="cat">Category :<a href="{{route('product-cat',$product_detail->cat_info['slug'])}}">{{$product_detail->cat_info['title']}}</a></p>
 												@if($product_detail->sub_cat_info)
@@ -169,7 +174,7 @@
 												<!-- Description Tab -->
 												<div class="tab-pane fade show active" id="description" role="tabpanel">
 													<div class="tab-single">
-														<div class="row">
+							  							<div class="row">
 															<div class="col-12">
 																<div class="single-des">
 																	<p>{!! ($product_detail->description) !!}</p>
@@ -347,8 +352,8 @@
                                             @php 
                                                 $after_discount=($data->price-(($data->discount*$data->price)/100));
                                             @endphp
-                                            <span class="old">${{number_format($data->price,2)}}</span>
-                                            <span>${{number_format($after_discount,2)}}</span>
+                                            <span class="old">฿{{number_format($data->price,2)}}</span>
+                                            <span>฿{{number_format($after_discount,2)}}</span>
                                         </div>
                                       
                                     </div>
@@ -455,6 +460,7 @@
                                 </div>
                                 <!--/ End Input Order -->
                             </div>
+							
                             <div class="add-to-cart">
                                 <a href="#" class="btn">Add to cart</a>
                                 <a href="#" class="btn min"><i class="ti-heart"></i></a>
@@ -563,5 +569,6 @@
             })
         });
     </script> --}}
+		
  
 @endpush

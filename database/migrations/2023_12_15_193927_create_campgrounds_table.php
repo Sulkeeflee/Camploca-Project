@@ -9,25 +9,28 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up(): void 
     {
         Schema::create('campgrounds', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('title');
             $table->string('slug')->unique()->nullable();
             $table->text('summary');
             $table->longText('description')->nullable();
             $table->string('location')->nullable();
-            $table->double('lat')->nullable();
-            $table->double('lng')->nullable();
+            $table->decimal('lat', 10, 6)->nullable();
+            $table->decimal('lng', 10, 6)->nullable();
             $table->text('photo');
-            $table->enum('condition',['default','new','hot'])->default('default');
-            $table->enum('status',['active','inactive'])->default('inactive');
-            $table->boolean('is_featured')->default(false); // Fix the typo here
+            $table->enum('condition', ['default', 'new', 'hot'])->default('default');
+            $table->enum('status', ['active', 'inactive'])->default('inactive');
+            $table->boolean('is_featured')->default(false);
             $table->unsignedBigInteger('cat_id')->nullable();
             $table->unsignedBigInteger('child_cat_id')->nullable();
-            $table->foreign('cat_id')->references('id')->on('categories')->onDelete('SET NULL');
-            $table->foreign('child_cat_id')->references('id')->on('categories')->onDelete('SET NULL');
+            $table->unsignedBigInteger('added_by')->nullable();
+            $table->foreign('cat_id')->references('id')->on('campground_categories')->onDelete('SET NULL');
+            $table->foreign('child_cat_id')->references('id')->on('campground_categories')->onDelete('SET NULL');
+            $table->foreign('added_by')->references('id')->on('users')->onDelete('SET NULL');
             $table->timestamps();
         });
     }
@@ -40,6 +43,3 @@ return new class extends Migration
         Schema::dropIfExists('campgrounds');
     }
 };
-
-
-

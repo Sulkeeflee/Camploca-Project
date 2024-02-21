@@ -39,7 +39,7 @@
           @enderror
         </div>
 
-        <div class="form-group">
+        <div class="form-group"> 
           <label for="post_cat_id">Category <span class="text-danger">*</span></label>
           <select name="post_cat_id" class="form-control">
               <option value="">--Select any category--</option>

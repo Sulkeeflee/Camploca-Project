@@ -18,7 +18,10 @@
     use \UniSharp\LaravelFilemanager\Lfm;
     use App\Http\Controllers\CampgroundController;
     use App\Http\Controllers\CampgroundCategoryController;
-
+    use App\Http\Controllers\CampgroundFrontController;
+    use App\Http\Controllers\CampgroundReviewController;
+    use App\Http\Controllers\ProductFrontController;
+    use App\Http\Controllers\CampgroundProductController;
     /*
     |--------------------------------------------------------------------------
     | Web Routes
@@ -68,16 +71,19 @@
     Route::get('/product-cat/{slug}', [FrontendController::class, 'productCat'])->name('product-cat');
     Route::get('/product-sub-cat/{slug}/{sub_slug}', [FrontendController::class, 'productSubCat'])->name('product-sub-cat');
     Route::get('/product-brand/{slug}', [FrontendController::class, 'productBrand'])->name('product-brand');
-    Route::get('/campground', [FrontendController::class, 'campground'])->name('campground');
-    Route::get('/campground/create', [FrontendController::class, 'createCampground'])->name('campground.create-campground');
+    Route::resource('product-front', 'ProductFrontController');
     Route::get('campground-detail/{slug}', [FrontendController::class, 'campgroundDetail'])->name('campground-detail');
+    Route::post('/campground/search', [FrontendController::class, 'campgroundSearch'])->name('campground.search');
+    Route::resource('campground-front', 'CampgroundFrontController');
+    Route::get('/campground-cat/{slug}', [CampgroundFrontController::class, 'campgroundCat'])->name('campground-cat');
+    Route::get('/campground-sub-cat/{slug}/{sub_slug}', [CampgroundFrontController::class, 'campgroundSubCat'])->name('campground-sub-cat');
 // Cart section
     Route::get('/add-to-cart/{slug}', [CartController::class, 'addToCart'])->name('add-to-cart')->middleware('user');
     Route::post('/add-to-cart', [CartController::class, 'singleAddToCart'])->name('single-add-to-cart')->middleware('user');
     Route::get('cart-delete/{id}', [CartController::class, 'cartDelete'])->name('cart-delete');
     Route::post('cart-update', [CartController::class, 'cartUpdate'])->name('cart.update');
 
-    Route::get('/cart', function () {
+    Route::get('/cart', function () { 
         return view('frontend.pages.cart');
     })->name('cart');
     Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout')->middleware('user');
@@ -107,10 +113,14 @@
 
 // NewsLetter
     Route::post('/subscribe', [FrontendController::class, 'subscribe'])->name('subscribe');
+// Campground Review
+    Route::resource('/campground-review', 'CampgroundReviewController');
+    Route::post('campground/{slug}/campground-review', [CampgroundReviewController::class, 'store'])->name('campground-review.store');
 
 // Product Review
     Route::resource('/review', 'ProductReviewController');
     Route::post('product/{slug}/review', [ProductReviewController::class, 'store'])->name('review.store');
+
 
 // Post Comment
     Route::post('post/{slug}/comment', [PostCommentController::class, 'store'])->name('post-comment.store');
@@ -175,6 +185,8 @@
         // campground category
         Route::resource('campground-category', 'CampgroundCategoryController');
         Route::resource('campground', 'CampgroundController');
+         // Ajax for sub campground category
+         Route::post('/category/{id}/child', 'CampgroundCategoryController@getChildByParent');
     });
 
 
@@ -194,6 +206,26 @@
         Route::get('/user-review/edit/{id}', [HomeController::class, 'productReviewEdit'])->name('user.productreview.edit');
         Route::patch('/user-review/update/{id}', [HomeController::class, 'productReviewUpdate'])->name('user.productreview.update');
 
+         // Campground Review
+         Route::get('/user-campground-review', [HomeController::class, 'campgroundReviewIndex'])->name('user.campgroundreview.index');
+         Route::delete('/user-campground-review/delete/{id}', [HomeController::class, 'campgroundReviewDelete'])->name('user.campgroundreview.delete');
+         Route::get('/user-campground-review/edit/{id}', [HomeController::class, 'campgroundReviewEdit'])->name('user.campgroundreview.edit');
+         Route::patch('/user-campground-review/update/{id}', [HomeController::class, 'campgroundReviewUpdate'])->name('user.campgroundreview.update');
+        
+        // Campground
+        Route::get('/user-campground', [HomeController::class, 'campgroundIndex'])->name('user.campground.index');
+        Route::delete('/user-campground/delete/{id}', [HomeController::class, 'campgroundDelete'])->name('user.campground.delete');
+        Route::get('/user-campground/edit/{id}', [HomeController::class, 'campgroundEdit'])->name('user.campground.edit');
+        Route::patch('/user-campground/update/{id}', [HomeController::class, 'campgroundUpdate'])->name('user.campground.update');
+
+        // Product
+        Route::get('/user-product/create', [HomeController::class, 'productcreate'])->name('user.product.create');
+        Route::get('/user-product', [HomeController::class, 'productindex'])->name('user.product.index');
+        Route::delete('/user-product/delete/{id}', [HomeController::class, 'productdelete'])->name('user.product.delete');
+        Route::get('/user-product/edit/{id}', [HomeController::class, 'productedit'])->name('user.product.edit');
+        Route::patch('/user-product/update/{id}', [HomeController::class, 'productupdate'])->name('user.product.update');
+
+
         // Post comment
         Route::get('user-post/comment', [HomeController::class, 'userComment'])->name('user.post-comment.index');
         Route::delete('user-post/comment/delete/{id}', [HomeController::class, 'userCommentDelete'])->name('user.post-comment.delete');
@@ -210,7 +242,15 @@
         Lfm::routes();
     });
 
+    Route::get('/campground-products', [CampgroundProductController::class, 'index'])->name('campground.product.index');
+    Route::post('/campground-products', [CampgroundProductController::class, 'store'])->name('campground.product.store');
+   
+    Route::delete('/campgrounds/{campground}/products/{product}', 'CampgroundProductController@destroy')->name('campground.product.delete');
 
 
 
+    Route::get('/backend-campground-products', [CampgroundProductController::class, 'campgroundProducts'])->name('backend.campground.product.index');
+    Route::post('/backend-campground-products', [CampgroundProductController::class, 'campgroundProductsStore'])->name('backend.campground.product.store');
 
+
+    

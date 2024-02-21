@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 
-@section('title','E-Shop || Login Page')
+@section('title','CAMPLOCA || Login Page')
 
 @section('main-content')
     <!-- Breadcrumbs -->
@@ -35,7 +35,7 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label>Your Email<span>*</span></label>
-                                        <input type="email" name="email" placeholder="" required="required" value="{{old('email')}}">
+                                        <input type="email" name="email" placeholder="Enter your email" required="required" value="{{old('email')}}">
                                         @error('email')
                                             <span class="text-danger">{{$message}}</span>
                                         @enderror
@@ -44,7 +44,7 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label>Your Password<span>*</span></label>
-                                        <input type="password" name="password" placeholder="" required="required" value="{{old('password')}}">
+                                        <input type="password" name="password" placeholder="Enter your password" required="required" value="{{old('password')}}">
                                         @error('password')
                                             <span class="text-danger">{{$message}}</span>
                                         @enderror
@@ -54,10 +54,10 @@
                                     <div class="form-group login-btn">
                                         <button class="btn" type="submit">Login</button>
                                         <a href="{{route('register.form')}}" class="btn">Register</a>
-                                        OR
+                                        <!-- OR
                                         <a href="{{route('login.redirect','facebook')}}" class="btn btn-facebook"><i class="ti-facebook"></i></a>
                                         <a href="{{route('login.redirect','github')}}" class="btn btn-github"><i class="ti-github"></i></a>
-                                        <a href="{{route('login.redirect','google')}}" class="btn btn-google"><i class="ti-google"></i></a>
+                                        <a href="{{route('login.redirect','google')}}" class="btn btn-google"><i class="ti-google"></i></a> -->
 
                                     </div>
                                     <div class="checkbox">

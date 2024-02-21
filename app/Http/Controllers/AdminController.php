@@ -48,34 +48,38 @@ class AdminController extends Controller
         return redirect()->back();
     }
 
-    public function settings(){
-        $data=Settings::first();
-        return view('backend.setting')->with('data',$data);
+    public function settings()
+    {
+        // Retrieve the first settings record or create a new one if none exists
+        $data = Settings::firstOrNew();
+
+        return view('backend.setting')->with('data', $data);
     }
 
-    public function settingsUpdate(Request $request){
-        // return $request->all();
-        $this->validate($request,[
-            'short_des'=>'required|string',
-            'description'=>'required|string',
-            'photo'=>'required',
-            'logo'=>'required',
-            'address'=>'required|string',
-            'email'=>'required|email',
-            'phone'=>'required|string',
+    public function settingsUpdate(Request $request)
+    {
+        $this->validate($request, [
+            'short_des' => 'required|string',
+            'description' => 'required|string',
+            'photo' => 'required',
+            'logo' => 'required',
+            'address' => 'required|string',
+            'email' => 'required|email',
+            'phone' => 'required|string',
         ]);
-        $data=$request->all();
-        // return $data;
-        $settings=Settings::first();
-        // return $settings;
-        $status=$settings->fill($data)->save();
-        if($status){
-            request()->session()->flash('success','Setting successfully updated');
+
+        $data = $request->all();
+
+        // Retrieve the first settings record or create a new one if none exists
+        $settings = Settings::firstOrNew();
+
+        $status = $settings->fill($data)->save();
+
+        if ($status) {
+            return redirect()->route('admin')->with('success', 'Settings successfully updated');
+        } else {
+            return redirect()->route('admin')->with('error', 'Failed to update settings');
         }
-        else{
-            request()->session()->flash('error','Please try again');
-        }
-        return redirect()->route('admin');
     }
 
     public function changePassword(){

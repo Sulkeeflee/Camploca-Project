@@ -9,7 +9,7 @@ use App\Models\Brand;
 
 use Illuminate\Support\Str;
 
-class ProductController extends Controller
+class ProductController extends Controller 
 {
     /**
      * Display a listing of the resource.
@@ -55,7 +55,7 @@ class ProductController extends Controller
             'cat_id'=>'required|exists:categories,id',
             'brand_id'=>'nullable|exists:brands,id',
             'child_cat_id'=>'nullable|exists:categories,id',
-            'is_featured'=>'sometimes|in:1',
+            'is_featured'=>'sometimes|in:1', 
             'status'=>'required|in:active,inactive',
             'condition'=>'required|in:default,new,hot',
             'price'=>'required|numeric',
@@ -63,6 +63,7 @@ class ProductController extends Controller
         ]);
 
         $data=$request->all();
+        $data['user_id'] = $request->user()->id; 
         $slug=Str::slug($request->title);
         $count=Product::where('slug',$slug)->count();
         if($count>0){

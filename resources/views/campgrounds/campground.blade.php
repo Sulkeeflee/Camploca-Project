@@ -1,17 +1,17 @@
 @extends('frontend.layouts.master')
 
-@section('title','E-SHOP || PRODUCT PAGE')
+@section('title','CAMPLOCA || PRODUCT PAGE')
 
 @section('main-content')
 	<!-- Breadcrumbs -->
-    <div class="breadcrumbs">
+         <div class="breadcrumbs">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <div class="bread-inner">
                         <ul class="bread-list">
                             <li><a href="index1.html">Home<i class="ti-arrow-right"></i></a></li>
-                            <li class="active"><a href="blog-single.html">Shop Grid</a></li>
+                            <li class="active"><a href="blog-single.html">Campground Grid</a></li>
                         </ul>
                     </div>
                 </div>
@@ -19,39 +19,81 @@
         </div>
     </div>
     <!-- End Breadcrumbs -->
+   
  <!-- Product Style -->
  
    
         <section class="product-area shop-sidebar shop section">
+             <!-- Map -->
+    
+    <div class="container">
+
+<div id="map" class="mb-4" style="width: 100%; height: 400px;"></div>
+
+<h1 class="display-6 text-center mb-4">Search and View Our Campgrounds</h1>
+
+<div class="header shop">
+                <div class="search-bar-top">
+                    <div class="search-bar">
+                       
+                        <form method="POST" action="{{route('campground.search')}}">
+                            @csrf
+                            <input name="search" placeholder="Search Campgrounds Here....." type="search">
+                            <button class="btnn" type="submit"><i class="ti-search"></i></button>
+                        </form>
+                    </div>
+                </div>
+</div>
+</div>
+
+<!-- End Map -->
+<br><br>
             <div class="container">
                 <div class="row">
                     <div class="col-lg-3 col-md-4 col-12">
                         <div class="shop-sidebar">
                                 <!-- Single Widget -->
                                 <div class="single-widget category">
+                                    <h3 class="title">Add New Campground</h3>
+                                    <div class="form-group button">
+                                <a  href="{{route('campground-front.create')}}"  class="btn">Add Campground</a>
+												
+					 						</div>
+                                </div>
+                                <!--/ End Single Widget -->
+                             <!-- Single Widget -->
+                             <div class="single-widget category">
                                     <h3 class="title">Categories</h3>
                                     <ul class="categor-list">
-										
+										@php
+											// $CampgroundCategory = new Category();
+											$menu=App\Models\CampgroundCategory::getAllParentWithChild();
+										@endphp
+										@if($menu)
 										<li>
-											
-														<li><a href="">11</a>
+											@foreach($menu as $cat_info)
+													@if($cat_info->child_cat->count()>0)
+														<li><a href="{{route('campground-cat',$cat_info->slug)}}">{{$cat_info->title}}</a>
 															<ul>
-																
-																	<li><a href="">10</a></li>
-																
+																@foreach($cat_info->child_cat as $sub_menu)
+																	<li><a href="{{route('campground-sub-cat',[$cat_info->slug,$sub_menu->slug])}}">{{$sub_menu->title}}</a></li>
+																@endforeach
 															</ul>
 														</li>
-												
-														<li><a href="">9</a></li>
-													
+													@else
+														<li><a href="{{route('campground-cat',$cat_info->slug)}}">{{$cat_info->title}}</a></li>
+													@endif
+											@endforeach
 										</li>
-										
-												<li><a href="">8</a></li>
-											
+										@endif
+                                        {{-- @foreach(Helper::campgroundtCategoryList('campgrounds') as $cat)
+                                            @if($cat->is_parent==1)
+												<li><a href="{{route('campground-cat',$cat->slug)}}">{{$cat->title}}</a></li>
+											@endif
+                                        @endforeach --}}
                                     </ul>
                                 </div>
                                 <!--/ End Single Widget -->
-                            
                              
                         </div>
                     </div>
@@ -92,50 +134,49 @@
                                 <!--/ End Shop Top -->
                             </div>
                         </div>
+
+                        
                         
                         <div class="row">
                         <div class="single-product">
-                          <div class="col-12">
-						    <div class="form-group button">
-                                <a  href="{{route('campground.create-campground')}}"  class="btn">Add Campground</a>
-												
-											</div>
-										</div>
-       @foreach($campgrounds as $campgrounds)
-     <div class="card mb-3">
-           <div class="row g-0 bg-body-secondary position-relative">
-           <a href="{{route('campground-detail',$campgrounds->slug)}}" class="stretched-link"></a>
-               <div class="col-md-6 mb-md-0 p-md-4">
-               
-    
-                                        @php
+                          
+
+                                        @foreach($campgrounds as $campgrounds)                              
+   <div class="card mb-3" >
+  <div class="row g-0">
+  <a href="{{route('campground-detail',$campgrounds->slug)}}" class="stretched-link"></a>
+    <div class="col-md-6 mb-md-0 p-md-4">
+    @php
                                             $photo = explode(',', $campgrounds->photo);
                                         @endphp
                               <img src="{{ $photo[0] }}" class="w-100 rounded" alt="{{ $campgrounds->photo }}">
-                                                   
-                  
-               </div>
-               <div class="col-md-6 p-4 ps-md-0">
-               <h5 class="card-title">
-               {{ $campgrounds->title }}
-                               </h5>
-                               <p class="card-text">
-                               {{ $campgrounds->description }}
-                               </p>
-                               <p class="card-text">
-                                   <small class="text-muted">
-                                   {{ $campgrounds->location }}
-                                   </small>
-                               </p>      
-               </div>
-               </a>
-           </div>
-       </div>               
-       @endforeach             
-                                    </div>
-                             
-
-
+    </div>
+    <div class="col-md-6 p-4 ps-md-0">
+      <div class="card-body">
+        <h5 class="card-title">{{ $campgrounds->title }}</h5>
+        
+       
+    <p class="location"><i class="ti-location-pin"></i>{{ $campgrounds->location }}</p>
+        
+        <br>
+        <p class="card-text">{!! ($campgrounds->summary) !!}</p>
+        <br>
+        <p class="card-text">
+                                           <span class="text-muted">
+                                                <i class="fa fa-user" aria-hidden="true"></i>
+                                                 {{$campgrounds->author_info->name ?? 'Anonymous'}}
+                                            </span>
+            <small class="float-right">{{$campgrounds->created_at->format('d M , Y. D')}}</small>
+        
+    </p>
+      </div>
+    </div>
+    </a>
+  </div>
+</div>
+@endforeach 
+             
+                          </div>
                         </div>
 
                     </div>
@@ -159,6 +200,9 @@
         margin-top:10px;
         color: white;
     }
+
+
+
 </style>
 @endpush
 @push('scripts')
@@ -227,4 +271,60 @@
             }
         })
     </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+
+     
+      
+       
+<script>
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 9,
+            center: {lat: 6.389836, lng: 101.369304},
+            scrollwheel: false
+        });
+
+        <!-- Assuming you have already initialized your Google Map instance -->
+<!-- For example: -->
+<!-- var map = new google.maps.Map(document.getElementById('map'), { options }); -->
+
+@foreach($campground as $campgrounds)
+    @if(isset($campgrounds->lat) && isset($campgrounds->lng))
+        var lat = {{ $campgrounds->lat }};
+        var lng = {{ $campgrounds->lng }};
+        var center = { lat: lat, lng: lng };
+        var contentString = `
+            <strong>{{ $campgrounds->title }}<br />
+            {{ $campgrounds->location }}</strong>
+        `;
+
+        var infowindow = new google.maps.InfoWindow({
+            content: contentString
+        });
+
+        var marker = new google.maps.Marker({
+            position: center,
+            map: map,  // Assuming you already have a Google Map instance named 'map'
+            title: "{{ $campgrounds->title }}"
+        });
+
+        // Attach click event listener to show info window when marker is clicked
+        attachClickEvent(marker, infowindow);
+    @endif
+@endforeach
+
+// Function to attach click event listener
+function attachClickEvent(marker, infowindow) {
+    marker.addListener('click', function() {
+        infowindow.open(map, marker);
+    });
+}
+
+    }
+</script>
+                 
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJGrSPlebBrnf1GTiZUkgD9pslRBgerq0&callback=initMap"></script>
+
+
 @endpush

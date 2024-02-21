@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Campground;
 use App\Models\CampgroundCategory;
+use App\Models\Product;
+use App\User;
 use Illuminate\Support\Str;
 
 class CampgroundController extends Controller
@@ -19,7 +21,9 @@ class CampgroundController extends Controller
     public function create()
     {
         $categories = CampgroundCategory::all();
-        return view('backend.campground.create')->with('categories', $categories);
+        $products = Product::all();
+        $users=User::all();
+        return view('backend.campground.create')->with('users',$users)->with('categories', $categories)->with('products', $products);
     }
 
     public function store(Request $request)
@@ -29,35 +33,41 @@ class CampgroundController extends Controller
             'summary' => 'required',
             'description' => 'nullable|string',
             'location' => 'nullable|string',
-            'lat' => 'nullable|decimal',
-            'lng' => 'nullable|decimal',
+            'lat' => 'nullable|numeric|regex:/^\d{1,3}(\.\d{1,6})?$/',
+            'lng' => 'nullable|numeric|regex:/^\d{1,3}(\.\d{1,6})?$/',
             'is_featured' => 'sometimes|in:1',
-            'cat_id' => 'required|exists:categories,id',
-            'child_cat_id' => 'nullable|exists:categories,id',
-            'condition' => 'nullable|string',
+            'cat_id' => 'required|exists:campground_categories,id',
+            'child_cat_id' => 'nullable|exists:campground_categories,id',
+            'condition' => 'required|string',  // Update this line to make 'condition' required
             'photo' => 'required|string',
             'status' => 'required|in:active,inactive',
         ]);
-
-
-        $data=$request->all(); 
-        $slug=Str::slug($request->title);
-        $count=Campground::where('slug',$slug)->count();
-        if($count>0){
-            $slug=$slug.'-'.date('ymdis').'-'.rand(0,999);
-        }
-        $data['slug']=$slug;
-        $data['is_featured']=$request->input('is_featured',0);
+    
+        $data = $request->all();
+        $data['user_id'] = $request->user()->id; 
+        $data['added_by'] = $request->user()->id; 
+        $slug = Str::slug($request->title);
+        $count = Campground::where('slug', $slug)->count();
         
-        // return $size;
-        // return $data;
+        if ($count > 0) {
+            $slug = $slug . '-' . date('ymdis') . '-' . rand(0, 999);
+        }
+    
+        $data['slug'] = $slug;
+        $data['is_featured'] = $request->input('is_featured', 0);
+    
+        // Ensure 'condition' is not null
+        $data['condition'] = $request->input('condition', '');
+        
+    
         $campground = Campground::create($data);
-        if($campground){
+    
+        if ($campground) {
             request()->session()->flash('success', 'Campground successfully added');
+        } else {
+            request()->session()->flash('error', 'Please try again!!');
         }
-        else{
-            request()->session()->flash('error','Please try again!!');
-        }
+    
         return redirect()->route('campground.index');
 
     }
@@ -66,8 +76,10 @@ class CampgroundController extends Controller
     {
         $campground = Campground::findOrFail($id);
         $categories = CampgroundCategory::all();
+        $products = Product::all();
+        $users=User::get();
 
-        return view('backend.campground.edit')->with('campground', $campground)->with('categories', $categories);
+        return view('backend.campground.edit')->with('users',$users)->with('campground', $campground)->with('categories', $categories)->with('products', $products);
     }
 
     public function update(Request $request, $id)
@@ -76,9 +88,12 @@ class CampgroundController extends Controller
             'title' => 'required|string',
             'summary' => 'required|string',
             'description' => 'nullable|string',
+            'location' => 'nullable|string',
+            'lat' => 'nullable|numeric|regex:/^\d{1,3}(\.\d{1,6})?$/',
+            'lng' => 'nullable|numeric|regex:/^\d{1,3}(\.\d{1,6})?$/',
             'is_featured' => 'sometimes|in:1',
-            'cat_id' => 'required|exists:categories,id',
-            'child_cat_id' => 'nullable|exists:categories,id',
+            'cat_id' => 'required|exists:campground_categories,id',
+            'child_cat_id' => 'nullable|exists:campground_categories,id',
             'condition' => 'nullable|string',
             'photo' => 'required|string',
             'status' => 'required|in:active,inactive',

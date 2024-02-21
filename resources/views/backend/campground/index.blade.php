@@ -20,6 +20,7 @@
             <tr>
               <th>S.N.</th>
               <th>Title</th>
+              <th>Summary</th>
               <th>Description</th>
               <th>Location</th>
               <th>Category</th>
@@ -36,7 +37,8 @@
                             <tr>
                                 <td>{{ $campground->id }}</td>
                                 <td>{{ $campground->title }}</td>
-                                <td>{{ $campground->description }}</td>
+                                <td class="description">{!! ($campground->summary) !!}</td>
+                                <td class="description">{!! ($campground->description) !!}</td>
                                 <td>{{ $campground->location }}</td>
                                 <td>{{ $campground->category->title ?? '' }}</td>
                                 <td>{{ $campground->is_featured ? 'Yes' : 'No' }}</td>

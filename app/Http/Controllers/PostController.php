@@ -26,7 +26,7 @@ class PostController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response 
      */
     public function create()
     {
@@ -44,7 +44,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request->all();
+        // return $request->all(); 
         $this->validate($request,[
             'title'=>'string|required',
             'quote'=>'string|nullable',

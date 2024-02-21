@@ -74,7 +74,7 @@
                                         <div class="form-group">
                                             <label>Country<span>*</span></label>
                                             <select name="country" id="country">
-                                                <option value="AF">Afghanistan</option>
+                                                <!-- <option value="AF">Afghanistan</option>
                                                 <option value="AX">Åland Islands</option>
                                                 <option value="AL">Albania</option>
                                                 <option value="DZ">Algeria</option>
@@ -290,9 +290,9 @@
                                                 <option value="SY">Syria</option>
                                                 <option value="TW">Taiwan</option>
                                                 <option value="TJ">Tajikistan</option>
-                                                <option value="TZ">Tanzania</option>
+                                                <option value="TZ">Tanzania</option> -->
                                                 <option value="TH">Thailand</option>
-                                                <option value="TL">Timor-Leste</option>
+                                                <!-- <option value="TL">Timor-Leste</option>
                                                 <option value="TG">Togo</option>
                                                 <option value="TK">Tokelau</option>
                                                 <option value="TO">Tonga</option>
@@ -318,7 +318,7 @@
                                                 <option value="EH">Western Sahara</option>
                                                 <option value="YE">Yemen</option>
                                                 <option value="ZM">Zambia</option>
-                                                <option value="ZW">Zimbabwe</option>
+                                                <option value="ZW">Zimbabwe</option> -->
                                             </select>
                                         </div>
                                     </div>
@@ -361,7 +361,7 @@
                                     <h2>CART  TOTALS</h2>
                                     <div class="content">
                                         <ul>
-										    <li class="order_subtotal" data-price="{{Helper::totalCartPrice()}}">Cart Subtotal<span>${{number_format(Helper::totalCartPrice(),2)}}</span></li>
+										    <li class="order_subtotal" data-price="{{Helper::totalCartPrice()}}">Cart Subtotal<span>฿{{number_format(Helper::totalCartPrice(),2)}}</span></li>
                                             <li class="shipping">
                                                 Shipping Cost
                                                 @if(count(Helper::shipping())>0 && Helper::cartCount()>0)
@@ -377,7 +377,7 @@
                                             </li>
                                             
                                             @if(session('coupon'))
-                                            <li class="coupon_price" data-price="{{session('coupon')['value']}}">You Save<span>${{number_format(session('coupon')['value'],2)}}</span></li>
+                                            <li class="coupon_price" data-price="{{session('coupon')['value']}}">You Save<span>฿{{number_format(session('coupon')['value'],2)}}</span></li>
                                             @endif
                                             @php
                                                 $total_amount=Helper::totalCartPrice();
@@ -386,9 +386,9 @@
                                                 }
                                             @endphp
                                             @if(session('coupon'))
-                                                <li class="last"  id="order_total_price">Total<span>${{number_format($total_amount,2)}}</span></li>
+                                                <li class="last"  id="order_total_price">Total<span>฿{{number_format($total_amount,2)}}</span></li>
                                             @else
-                                                <li class="last"  id="order_total_price">Total<span>${{number_format($total_amount,2)}}</span></li>
+                                                <li class="last"  id="order_total_price">Total<span>฿{{number_format($total_amount,2)}}</span></li>
                                             @endif
                                         </ul>
                                     </div>
@@ -402,7 +402,8 @@
                                             {{-- <label class="checkbox-inline" for="1"><input name="updates" id="1" type="checkbox"> Check Payments</label> --}}
                                             <form-group>
                                                 <input name="payment_method"  type="radio" value="cod"> <label> Cash On Delivery</label><br>
-                                                <input name="payment_method"  type="radio" value="paypal"> <label> PayPal</label> 
+                                                <input name="payment_method"  type="radio" value="cash"> <label> Cash </label><br>
+                                                <!-- <input name="payment_method"  type="radio" value="paypal"> <label> PayPal</label>  -->
                                             </form-group>
                                             
                                         </div>
@@ -410,11 +411,11 @@
                                 </div>
                                 <!--/ End Order Widget -->
                                 <!-- Payment Method Widget -->
-                                <div class="single-widget payement">
+                                <!-- <div class="single-widget payement">
                                     <div class="content">
                                         <img src="{{('backend/img/payment-method.png')}}" alt="#">
                                     </div>
-                                </div>
+                                </div> -->
                                 <!--/ End Payment Method Widget -->
                                 <!-- Button Widget -->
                                 <div class="single-widget get-button">
@@ -433,72 +434,29 @@
     </section>
     <!--/ End Checkout -->
     
-    <!-- Start Shop Services Area  -->
-    <section class="shop-services section home">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Service -->
-                    <div class="single-service">
-                        <i class="ti-rocket"></i>
-                        <h4>Free shiping</h4>
-                        <p>Orders over $100</p>
-                    </div>
-                    <!-- End Single Service -->
-                </div>
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Service -->
-                    <div class="single-service">
-                        <i class="ti-reload"></i>
-                        <h4>Free Return</h4>
-                        <p>Within 30 days returns</p>
-                    </div>
-                    <!-- End Single Service -->
-                </div>
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Service -->
-                    <div class="single-service">
-                        <i class="ti-lock"></i>
-                        <h4>Sucure Payment</h4>
-                        <p>100% secure payment</p>
-                    </div>
-                    <!-- End Single Service -->
-                </div>
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Service -->
-                    <div class="single-service">
-                        <i class="ti-tag"></i>
-                        <h4>Best Peice</h4>
-                        <p>Guaranteed price</p>
-                    </div>
-                    <!-- End Single Service -->
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- End Shop Services -->
+   
     
     <!-- Start Shop Newsletter  -->
-    <section class="shop-newsletter section">
+    <!-- <section class="shop-newsletter section">
         <div class="container">
             <div class="inner-top">
                 <div class="row">
-                    <div class="col-lg-8 offset-lg-2 col-12">
+                    <div class="col-lg-8 offset-lg-2 col-12"> -->
                         <!-- Start Newsletter Inner -->
-                        <div class="inner">
+                        <!-- <div class="inner">
                             <h4>Newsletter</h4>
                             <p> Subscribe to our newsletter and get <span>10%</span> off your first purchase</p>
                             <form action="mail/mail.php" method="get" target="_blank" class="newsletter-inner">
                                 <input name="EMAIL" placeholder="Your email address" required="" type="email">
                                 <button class="btn">Subscribe</button>
                             </form>
-                        </div>
+                        </div> -->
                         <!-- End Newsletter Inner -->
-                    </div>
+                    <!-- </div>
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
     <!-- End Shop Newsletter -->
 @endsection
 @push('styles')

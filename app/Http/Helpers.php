@@ -1,6 +1,7 @@
 <?php
 use App\Models\Message;
 use App\Models\Category;
+use App\Models\CampgroundCategory;
 use App\Models\PostTag;
 use App\Models\PostCategory;
 use App\Models\Order;
@@ -18,6 +19,11 @@ class Helper{
         $menu=$category->getAllParentWithChild();
         return $menu;
     } 
+    public static function getAllCampgroundCategory(){
+        $category=new CampgroundCategory();
+        $menu=$category->getAllParentWithChild();
+        return $menu;
+    } 
     
     public static function getHeaderCategory(){
         $category = new Category();
@@ -28,7 +34,7 @@ class Helper{
             ?>
             
             <li>
-            <a href="javascript:void(0);">Category<i class="ti-angle-down"></i></a>
+            <a href="javascript:void(0);">Category<i class="ti-angle-down"></i></a> 
                 <ul class="dropdown border-0 shadow">
                 <?php
                     foreach($menu as $cat_info){

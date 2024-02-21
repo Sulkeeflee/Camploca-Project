@@ -40,13 +40,14 @@
                 @enderror
             </div>
 
+            
             <div class="form-group">
                 <label for="location" class="col-form-label">Location <span class="text-danger">*</span></label>
                 <input id="location" type="text" name="location" placeholder="Enter location" value="{{ old('location') }}" class="form-control">
             </div>
             <div class="form-group">
                 <label for="lat" class="col-form-label">Latitude (lat) <span class="text-danger">*</span></label>
-                <input id="lat" type="text" name="lat" placeholder="Enter latitude"  class="form-control" pattern="\d+(\.\d{7})?" title="Must have 10-7 decimal places">
+                <input id="lat" type="text" name="lat" placeholder="Enter latitude"  class="form-control" pattern="\d+(\.\d{6})?" title="Must have 10-6 decimal places">
                 @error('lat')
                 <span class="text-danger">{{ $message }}</span>
                 @enderror
@@ -54,7 +55,7 @@
 
             <div class="form-group">
                 <label for="lng" class="col-form-label">Longitude (lng) <span class="text-danger">*</span></label>
-                <input id="lng" type="text" name="lng" placeholder="Enter longitude"  class="form-control" pattern="\d+(\.\d{7})?" title="Must have 10-7 decimal places">
+                <input id="lng" type="text" name="lng" placeholder="Enter longitude"  class="form-control" pattern="\d+(\.\d{6})?" title="Must have 10-6 decimal places">
                 @error('lng')
                 <span class="text-danger">{{ $message }}</span>
                 @enderror
@@ -65,26 +66,27 @@
                 <input type="checkbox" name='is_featured' id='is_featured' value='1' checked> Yes
             </div>
 
-
-    
             <div class="form-group">
-                <label for="cat_id">Category <span class="text-danger">*</span></label>
-                <select name="cat_id" id="cat_id" class="form-control">
-                    <option value="">--Select any category--</option>
-                    @foreach($categories as $category)
-                    <option value='{{ $category->id }}'>{{ $category->title }}</option>
-                    @endforeach
-                </select>
-            </div>
+          <label for="cat_id">Category <span class="text-danger">*</span></label>
+          <select name="cat_id" id="cat_id" class="form-control">
+              <option value="">--Select any category--</option>
+              @foreach($categories as $key=>$cat_data)
+                  <option value='{{$cat_data->id}}'>{{$cat_data->title}}</option>
+              @endforeach
+          </select>
+        </div>
 
-            <div class="form-group d-none" id="child_cat_div">
-                <label for="child_cat_id">Sub Category</label>
-                <select name="child_cat_id" id="child_cat_id" class="form-control">
-                    <option value="">--Select any category--</option>
-                </select>
-            </div>
+        <div class="form-group d-none" id="child_cat_div">
+          <label for="child_cat_id">Sub Category</label>
+          <select name="child_cat_id" id="child_cat_id" class="form-control">
+              <option value="">--Select any category--</option>
+              {{-- @foreach($parent_cats as $key=>$parent_cat)
+                  <option value='{{$parent_cat->id}}'>{{$parent_cat->title}}</option>
+              @endforeach --}}
+          </select>
+        </div>
 
-           
+       
 
             <div class="form-group">
                 <label for="condition">Condition</label>
@@ -167,39 +169,48 @@
 
 </script>
 
+
 <script>
-    $('#cat_id').change(function() {
-        var cat_id = $(this).val();
-        if (cat_id != null) {
-            $.ajax({
-                url: "/admin/category/" + cat_id + "/child",
-                data: {
-                    _token: "{{csrf_token()}}",
-                    id: cat_id
-                },
-                type: "POST",
-                success: function(response) {
-                    if (typeof(response) != 'object') {
-                        response = $.parseJSON(response)
-                    }
-                    var html_option = "<option value=''>----Select sub category----</option>"
+$('#cat_id').change(function() {
+    var cat_id = $(this).val();
+    if (cat_id != '') {
+        $.ajax({
+            url: "/admin/category/" + cat_id + "/child",
+            data: {
+                _token: "{{ csrf_token() }}",
+                id: cat_id
+            },
+            type: "POST",
+            success: function(response) {
+                try {
+                    response = JSON.parse(response); // Parse the response as JSON
+                    var html_option = "<option value=''>----Select sub category----</option>";
                     if (response.status) {
                         var data = response.data;
-                        if (response.data) {
+                        if (data) {
                             $('#child_cat_div').removeClass('d-none');
                             $.each(data, function(id, title) {
-                                html_option += "<option value='" + id + "'>" + title + "</option>"
+                                html_option += "<option value='" + id + "'>" + title + "</option>";
                             });
-                        } else {
                         }
                     } else {
                         $('#child_cat_div').addClass('d-none');
                     }
                     $('#child_cat_id').html(html_option);
+                } catch (error) {
+                    console.error("Error parsing JSON response:", error);
                 }
-            });
-        } else {
-        }
-    })
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                console.error("AJAX request failed:", textStatus, errorThrown);
+            }
+        });
+    } else {
+        // Handle the case when no category is selected
+        $('#child_cat_div').addClass('d-none');
+        $('#child_cat_id').html("<option value=''>----Select sub category----</option>");
+    }
+});
+
 </script>
 @endpush

@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->boolean('is_parent')->default(1);
+            $table->unsignedBigInteger('parent_id')->nullable();
+            $table->unsignedBigInteger('added_by')->nullable();
             $table->enum('status',['active','inactive'])->default('active');
             $table->timestamps();
         });

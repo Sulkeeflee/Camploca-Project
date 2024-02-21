@@ -15,6 +15,7 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('summary');
@@ -30,6 +31,7 @@ class CreateProductsTable extends Migration
             $table->unsignedBigInteger('cat_id')->nullable();
             $table->unsignedBigInteger('child_cat_id')->nullable();
             $table->unsignedBigInteger('brand_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('SET NULL');
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('SET NULL');
             $table->foreign('cat_id')->references('id')->on('categories')->onDelete('SET NULL');
             $table->foreign('child_cat_id')->references('id')->on('categories')->onDelete('SET NULL');
