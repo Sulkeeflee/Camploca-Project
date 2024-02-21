@@ -59,8 +59,15 @@
 											<!-- End Images slider -->
 									
     <!-- Button trigger modal -->
-	<a href="" data-toggle="modal" data-target="#myModal" class="single-icon"><i class="ti-bag"></i> </a>
 	
+	
+	<a href="" data-toggle="modal" data-target="#myModal" class="single-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon-svg" fill="orange" width="30" height="30">
+        <path d="M12 2c3.236 0 5.892 2.59 6 5.816V9h3c1.105 0 2 .895 2 2v9c0 1.105-.895 2-2 2H3c-1.105 0-2-.895-2-2v-9c0-1.105.895-2 2-2h3V7.816C6.108 4.59 8.764 2 12 2zm0 2c-2.757 0-5 2.243-5 5v1h10V9c0-2.757-2.243-5-5-5zm-7 7h14c.552 0 1 .448 1 1v9c0 .552-.448 1-1 1H5c-.552 0-1-.448-1-1v-9c0-.552.448-1 1-1zm9 3a2 2 0 0 1 0 4 2 2 0 0 1 0-4z"/>
+    </svg><p class="description">สินค้า</p>
+</a>
+
+
 	
 								
 										</div>
